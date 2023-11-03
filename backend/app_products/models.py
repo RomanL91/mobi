@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.html import mark_safe
 
 from app_category.models import Category
 
@@ -41,10 +40,14 @@ class Products(models.Model):
 
     # слаг поле для индексации предзаполнение с имени
 
+    def __str__(self) -> str:
+        return self.name_product
+
 
 class ProductImage(models.Model):
-    image = models.ImageField(upload_to='product_images/%Y/%m/%d/%H/%M/%S/')
+    image = models.ImageField(verbose_name='Изображение', blank=True, upload_to='product_images/%Y/%m/%d/%H/%M/%S/')
+    desc = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
     product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name='Продукт')
 
     def __str__(self) -> str:
-        return mark_safe(f'<img src={self.image.url} width="200" ')
+        return self.product.name_product
