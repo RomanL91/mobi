@@ -1,8 +1,10 @@
 from django.db import models
 
+from app_category.models import Category
+
 
 class Products(models.Model):
-    # категория - одна
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория продукта')
 
     # photo = photo - много
     # color = color - один
