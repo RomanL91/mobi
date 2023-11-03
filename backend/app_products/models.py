@@ -41,7 +41,7 @@ class Products(models.Model):
         max_digits=4, decimal_places=2, default=0, 
         blank=True, null=True
     )
-    # период действия скидки - отдельной сущностью со связью?
+    # период действия скидки - отдельной сущностью со связью? (ДОБАВИТЬ)
 
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
     remaining_goods = models.PositiveIntegerField(verbose_name='Остаток товара', default=0, blank=True)
@@ -51,11 +51,10 @@ class Products(models.Model):
     
     display_promo = models.BooleanField(verbose_name='Отображать ПРОМО', default=False)
     promo = models.ForeignKey(Promo, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Участие продукта в промо')
+    # период действия промо (ДОБАВИТЬ)
 
-    # показывать рейтинг 
+    # показывать рейтинг отзывы
     # рейтингн - много
-
-    # показывать отзывы
     # отзывы - много
     
     # показывать характеристики 
