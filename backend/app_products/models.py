@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Products(models.Model):
     # категория - одна
@@ -14,14 +12,14 @@ class Products(models.Model):
 
 
     display_price = models.BooleanField(verbose_name='Отображать цену', default=False)
-    price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2)
+    price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2, blank=True)
 
     display_discount = models.BooleanField(verbose_name='Отобразить скидку', default=False)
-    discount = models.DecimalField(verbose_name='Скидка', max_digits=2, decimal_places=2)
+    discount = models.DecimalField(verbose_name='Скидка', max_digits=2, decimal_places=2, blank=True)
     # период действия скидки - отдельной сущностью со связью?
 
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
-    remaining_goods = models.BigIntegerField(verbose_name='Остаток товара', default=0)
+    remaining_goods = models.BigIntegerField(verbose_name='Остаток товара', default=0, blank=True)
 
     # показывать теги
     # теги - много
