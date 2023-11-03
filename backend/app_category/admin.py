@@ -5,4 +5,7 @@ from app_category.models import Category
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        'name_category',
+        'desc_category',
+    ]
