@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name='Tags',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name_category', models.CharField(max_length=150, unique=True, verbose_name='Наименование категории')),
-                ('desc_category', models.TextField(blank=True, max_length=1000, verbose_name='Описание категории')),
+                ('name_tag', models.CharField(max_length=150, unique=True, verbose_name='Название тэга')),
+                ('desc_tag', models.TextField(blank=True, max_length=1500, verbose_name='Описание тега')),
             ],
         ),
     ]

@@ -1,6 +1,18 @@
 from django.db import models
 
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 from app_category.models import Category
+from app_tags.models import Tags
+
+
+def valid(value):
+    if value < 0:
+        raise ValidationError(
+                _("%(value)s Не может быть отрицательным"),
+                params={"value": value},
+            )
 
 
 class Products(models.Model):
@@ -14,17 +26,27 @@ class Products(models.Model):
 
 
     display_price = models.BooleanField(verbose_name='Отображать цену', default=False)
-    price = models.DecimalField(verbose_name='Цена', max_digits=15, decimal_places=2, blank=True)
+    price = models.DecimalField(
+        verbose_name='Цена', 
+        validators=[valid,],
+        max_digits=15, decimal_places=2, default=0, 
+        blank=True, null=True
+    )
 
     display_discount = models.BooleanField(verbose_name='Отобразить скидку', default=False)
-    discount = models.DecimalField(verbose_name='Скидка', max_digits=4, decimal_places=2, blank=True)
+    discount = models.DecimalField(
+        verbose_name='Скидка', 
+        validators=[valid,],
+        max_digits=4, decimal_places=2, default=0, 
+        blank=True, null=True
+    )
     # период действия скидки - отдельной сущностью со связью?
 
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
-    remaining_goods = models.BigIntegerField(verbose_name='Остаток товара', default=0, blank=True)
+    remaining_goods = models.PositiveIntegerField(verbose_name='Остаток товара', default=0, blank=True)
 
-    # показывать теги
-    # теги - много
+    display_tag = models.BooleanField(verbose_name='Показывать ТЭГ', default=False)
+    tag = models.ManyToManyField(Tags, verbose_name='ТЭГ', blank=True)
     
     # показывать промо 
     # промо - один

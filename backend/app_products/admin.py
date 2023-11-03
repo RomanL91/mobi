@@ -56,6 +56,7 @@ class ProductImageInline(admin.StackedInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    filter_horizontal = ['tag',]
     inlines = [ProductImageInline,]
     list_display = [
         'get_image',
