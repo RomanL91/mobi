@@ -27,8 +27,8 @@ class CustomAdminFileWidget(AdminFileWidget):
 class ProductImageAdmin(admin.ModelAdmin):
     readonly_fields = ["preview"]
     list_display = [
-        'product',
         'get_image',
+        'product',
         'desc'
     ]
 
