@@ -39,3 +39,8 @@ class Products(models.Model):
     # характеристики - много
 
     # слаг поле для индексации предзаполнение с имени
+
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='product_images/%Y/%m/%d/%H/%M/%S/')
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name='Продукт')
