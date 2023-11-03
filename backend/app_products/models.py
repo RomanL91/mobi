@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from app_category.models import Category
 from app_tags.models import Tags
+from app_promo.models import Promo
 
 
 def valid(value):
@@ -48,8 +49,8 @@ class Products(models.Model):
     display_tag = models.BooleanField(verbose_name='Показывать ТЭГ', default=False)
     tag = models.ManyToManyField(Tags, verbose_name='ТЭГ', blank=True)
     
-    # показывать промо 
-    # промо - один
+    display_promo = models.BooleanField(verbose_name='Отображать ПРОМО', default=False)
+    promo = models.ForeignKey(Promo, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Участие продукта в промо')
 
     # показывать рейтинг 
     # рейтингн - много
