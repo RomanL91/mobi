@@ -56,6 +56,7 @@ class Products(models.Model):
     # показывать рейтинг отзывы
     # рейтингн - много
     # отзывы - много
+    display_reviews = models.BooleanField(verbose_name='Отображать отзывы', default=False)
     
     # показывать характеристики 
     # характеристики - много

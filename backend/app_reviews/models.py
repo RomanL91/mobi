@@ -8,8 +8,7 @@ from app_products.models import Products
 
 
 def valid(value):
-    print(f'--------{value} ----- {type(value)}')
-    if 0 > value > 5:
+    if not 5 >= float(value) >= 0:
         raise ValidationError(
                 _("%(value)s Оценка может быть от 0 до 5"),
                 params={"value": value},

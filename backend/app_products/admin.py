@@ -2,9 +2,13 @@ from django.db import models
 from django.contrib import admin
 from django.utils.html import mark_safe
 from django.utils.html import format_html
+# from django.template.loader import get_template
 from django.contrib.admin.widgets import AdminFileWidget
 
+# from fieldsets_with_inlines import FieldsetsInlineMixin
+
 from app_products.models import Products, ProductImage
+from app_reviews.models import Review
 
 
 class CustomAdminFileWidget(AdminFileWidget):
@@ -53,11 +57,27 @@ class ProductImageInline(admin.StackedInline):
     formfield_overrides = {
         models.ImageField: {'widget': CustomAdminFileWidget}
     }
+    classes = ['collapse']
+
+
+class ProductReviewInline(admin.StackedInline):
+    model = Review
+    extra = 0
+    classes = ['collapse']
 
 
 class ProductAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ('О продукте', {'fields': (('name_product', 'desc_product'),)}),
+        ('Остаток продукта', {'fields': (('remaining_goods', 'display_remaining_goods'),), 'classes':('collapse',)}),
+        ('Категория', {'fields': (('category',),), 'classes':('collapse',)}),
+        ('ТЭГИ', {'fields': (('tag', 'display_tag'),), 'classes':('collapse',)}),
+        ('Цена', {'fields': (('price', 'display_price'),), 'classes':('collapse',)}),
+        ('Акция', {'fields': (('discount', 'display_discount'),), 'classes':('collapse',)}),
+        ('ПРОМО', {'fields': (('promo', 'display_promo'),), 'classes':('collapse',)}),
+    )
     filter_horizontal = ['tag',]
-    inlines = [ProductImageInline,]
+    inlines = [ProductImageInline, ProductReviewInline]
     list_display = [
         'get_image',
         'name_product',
