@@ -75,6 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
         ('Цена', {'fields': (('price', 'display_price'),), 'classes':('collapse',)}),
         ('Акция', {'fields': (('discount', 'display_discount'),), 'classes':('collapse',)}),
         ('ПРОМО', {'fields': (('promo', 'display_promo'),), 'classes':('collapse',)}),
+        ('Рейтинг', {'fields': (('display_reviews', 'rating'),), 'classes':('collapse',)}),
     )
     filter_horizontal = ['tag',]
     inlines = [ProductImageInline, ProductReviewInline]
@@ -88,6 +89,8 @@ class ProductAdmin(admin.ModelAdmin):
         'discount',
         'display_remaining_goods',
         'remaining_goods',
+        'display_reviews',
+        'rating'
     ]
 
 

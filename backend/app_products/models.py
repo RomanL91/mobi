@@ -14,17 +14,21 @@ def valid(value):
                 _("%(value)s Не может быть отрицательным"),
                 params={"value": value},
             )
+    
+
+def rating_valid(value):
+    if not 5 >= float(value) >= 0:
+        raise ValidationError(
+                _("%(value)s Оценка может быть от 0 до 5"),
+                params={"value": value},
+            )
 
 
 class Products(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория продукта')
 
-    # photo = photo - много
-    # color = color - один
-
     name_product = models.CharField(verbose_name='Наименование продукта', max_length=150)
     desc_product = models.TextField(verbose_name='Описание продукта', max_length=1000, blank=True)
-
 
     display_price = models.BooleanField(verbose_name='Отображать цену', default=False)
     price = models.DecimalField(
@@ -53,10 +57,13 @@ class Products(models.Model):
     promo = models.ForeignKey(Promo, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Участие продукта в промо')
     # период действия промо (ДОБАВИТЬ)
 
-    # показывать рейтинг отзывы
-    # рейтингн - много
-    # отзывы - много
-    display_reviews = models.BooleanField(verbose_name='Отображать отзывы', default=False)
+    display_reviews = models.BooleanField(verbose_name='Отображать отзывы/Рейтинг', default=False)
+    rating = models.DecimalField(
+        verbose_name='Рейтинг',
+        validators=[rating_valid,],
+        max_digits=4, decimal_places=1, default=0,
+        blank=True, null=True
+    )
     
     # показывать характеристики 
     # характеристики - много
