@@ -10,6 +10,8 @@ from django.contrib.admin.widgets import AdminFileWidget
 from app_products.models import Products, ProductImage
 from app_reviews.models import Review
 
+from decimal import Decimal
+
 
 class CustomAdminFileWidget(AdminFileWidget):
     def render(self, name, value, attrs=None, renderer=None):
@@ -66,7 +68,7 @@ class ProductAdmin(admin.ModelAdmin):
         ('Остаток продукта', {'fields': (('remaining_goods', 'display_remaining_goods'),), 'classes':('collapse',)}),
         ('Категория', {'fields': (('category',),), 'classes':('collapse',)}),
         ('ТЭГИ', {'fields': (('tag', 'display_tag'),), 'classes':('collapse',)}),
-        ('Цена', {'fields': (('price', 'display_price'),), 'classes':('collapse',)}),
+        ('Цена', {'fields': (('price',),('price_with_discount_or_PROMO', 'display_price')), 'classes':('collapse',)}),
         ('Акция', {'fields': (('discount', 'display_discount'),), 'classes':('collapse',)}),
         ('ПРОМО', {'fields': (('promo', 'display_promo'),), 'classes':('collapse',)}),
         ('Рейтинг', {'fields': (('display_reviews', 'rating'),), 'classes':('collapse',)}),
@@ -79,13 +81,17 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'display_price',
         'price',
+        'price_with_discount_or_PROMO',
         'display_discount',
         'discount',
+        'display_promo',
+        'promo',
         'display_remaining_goods',
         'remaining_goods',
         'display_reviews',
         'rating'
     ]
+    readonly_fields = ['price_with_discount_or_PROMO',]
 
 
     def get_image(self, obj):
@@ -95,6 +101,25 @@ class ProductAdmin(admin.ModelAdmin):
         except:
             return None
     get_image.short_description = 'ФОТО'
+
+
+    def save_model(self, request, obj, form, change):
+        if not 'display_discount' in form.data and not 'display_promo' in form.data:
+            obj.price_with_discount_or_PROMO = Decimal(form.data.get('price'))
+        else:
+            price = Decimal(form.data.get('price'))
+            discount = Decimal(form.data.get('discount')) / 100
+            discount_promo = obj.promo.discont_promo / 100
+
+            if 'display_discount' in form.data and 'display_promo' in form.data:
+                price = price - (price * (discount + discount_promo))
+            elif 'display_discount' in form.data:
+                price = price - (price * discount)
+            elif 'display_promo' in form.data:
+                price = price - (price * discount_promo)
+
+            obj.price_with_discount_or_PROMO = price
+        obj.save()
 
 
 admin.site.register(ProductImage, ProductImageAdmin)

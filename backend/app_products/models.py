@@ -37,14 +37,21 @@ class Products(models.Model):
         max_digits=15, decimal_places=2, default=0, 
         blank=True, null=True
     )
+    price_with_discount_or_PROMO = models.DecimalField(
+        verbose_name='Итоговая цена со скидками/ПРОМО', 
+        validators=[valid,],
+        max_digits=15, decimal_places=2, default=0, 
+        blank=True, null=True
+    )
 
-    display_discount = models.BooleanField(verbose_name='Отобразить скидку', default=False)
+    display_discount = models.BooleanField(verbose_name='Отобразить/Применить скидку', default=False)
     discount = models.DecimalField(
         verbose_name='Скидка', 
         validators=[valid,],
         max_digits=4, decimal_places=2, default=0, 
         blank=True, null=True
     )
+   
     # период действия скидки - отдельной сущностью со связью? (ДОБАВИТЬ)
 
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
@@ -53,7 +60,7 @@ class Products(models.Model):
     display_tag = models.BooleanField(verbose_name='Показывать ТЭГ', default=False)
     tag = models.ManyToManyField(Tags, verbose_name='ТЭГ', blank=True)
     
-    display_promo = models.BooleanField(verbose_name='Отображать ПРОМО', default=False)
+    display_promo = models.BooleanField(verbose_name='Отобразить/Применить ПРОМО', default=False)
     promo = models.ForeignKey(Promo, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Участие продукта в промо')
     # период действия промо (ДОБАВИТЬ)
 
