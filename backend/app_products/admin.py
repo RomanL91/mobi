@@ -8,7 +8,6 @@ from django.contrib.admin.widgets import AdminFileWidget
 # from fieldsets_with_inlines import FieldsetsInlineMixin
 
 from app_products.models import Products, ProductImage
-from app_reviews.models import Review
 
 from decimal import Decimal
 
