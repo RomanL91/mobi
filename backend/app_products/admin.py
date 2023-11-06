@@ -60,12 +60,6 @@ class ProductImageInline(admin.StackedInline):
     classes = ['collapse']
 
 
-class ProductReviewInline(admin.StackedInline):
-    model = Review
-    extra = 0
-    classes = ['collapse']
-
-
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = (
         ('О продукте', {'fields': (('name_product', 'desc_product'),)}),
@@ -78,7 +72,7 @@ class ProductAdmin(admin.ModelAdmin):
         ('Рейтинг', {'fields': (('display_reviews', 'rating'),), 'classes':('collapse',)}),
     )
     filter_horizontal = ['tag',]
-    inlines = [ProductImageInline, ProductReviewInline]
+    inlines = [ProductImageInline,]
     list_display = [
         'get_image',
         'name_product',
