@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Q
 from django.utils.html import mark_safe
 from django.utils.html import format_html
 from django.contrib import admin
@@ -11,8 +10,12 @@ from django.contrib.admin.widgets import AdminFileWidget
 from app_products.models import Products, ProductImage
 
 from decimal import Decimal
-from datetime import datetime
-from django.utils import timezone
+
+from django_celery_beat.admin import (
+    PeriodicTask, SolarSchedule, 
+    ClockedSchedule, CrontabSchedule,
+    IntervalSchedule, 
+)
 
 
 class CustomAdminFileWidget(AdminFileWidget):
@@ -126,3 +129,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(Products, ProductAdmin)
+
+admin.site.unregister(PeriodicTask)
+admin.site.unregister(ClockedSchedule)
+admin.site.unregister(CrontabSchedule)
+admin.site.unregister(IntervalSchedule)
+admin.site.unregister(SolarSchedule)
