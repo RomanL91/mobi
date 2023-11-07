@@ -7,6 +7,8 @@ from app_category.models import Category
 from app_tags.models import Tags
 from app_promo.models import Promo
 
+from datetime import datetime, timedelta
+
 
 def valid(value):
     if value < 0:
@@ -53,6 +55,11 @@ class Products(models.Model):
     )
    
     # период действия скидки - отдельной сущностью со связью? (ДОБАВИТЬ)
+    # это можно пройти через фоновые задачи, но попробуем через http вызовы и сериализацию.
+    discount_period = models.DateTimeField(
+        verbose_name='Действие скидки до', default=datetime.now()+timedelta(days=3), blank=True,
+        help_text='По умолчанию +3 дня от времени создания карточки продукта'
+    )
 
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
     remaining_goods = models.PositiveIntegerField(verbose_name='Остаток товара', default=0, blank=True)

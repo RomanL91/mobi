@@ -1,5 +1,7 @@
 from django.db import models
 
+from datetime import datetime, timedelta
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -15,6 +17,10 @@ def valid(value):
 class Promo(models.Model):
     name_promo = models.CharField(
         verbose_name='Название ПРОМО', max_length=150, unique=True
+    )
+    discount_period_promo = models.DateTimeField(
+        verbose_name='Действие скидки ПРОМО до', default=datetime.now()+timedelta(days=3), blank=False,
+        help_text='По умолчанию +3 дня от времени создания карточки продукта'
     )
     desc_promo = models.TextField(
         verbose_name='Описание ПРОМО', max_length=1500, blank=True

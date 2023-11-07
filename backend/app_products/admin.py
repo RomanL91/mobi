@@ -4,12 +4,15 @@ from django.utils.html import mark_safe
 from django.utils.html import format_html
 # from django.template.loader import get_template
 from django.contrib.admin.widgets import AdminFileWidget
+from django.db.models import Q
 
 # from fieldsets_with_inlines import FieldsetsInlineMixin
 
 from app_products.models import Products, ProductImage
 
 from decimal import Decimal
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 class CustomAdminFileWidget(AdminFileWidget):
@@ -68,7 +71,7 @@ class ProductAdmin(admin.ModelAdmin):
         ('Категория', {'fields': (('category',),), 'classes':('collapse',)}),
         ('ТЭГИ', {'fields': (('tag', 'display_tag'),), 'classes':('collapse',)}),
         ('Цена', {'fields': (('price',),('price_with_discount_or_PROMO', 'display_price')), 'classes':('collapse',)}),
-        ('Акция', {'fields': (('discount', 'display_discount'),), 'classes':('collapse',)}),
+        ('Акция', {'fields': (('discount', 'display_discount'), 'discount_period'), 'classes':('collapse',)}),
         ('ПРОМО', {'fields': (('promo', 'display_promo'),), 'classes':('collapse',)}),
         ('Рейтинг', {'fields': (('display_reviews', 'rating'),), 'classes':('collapse',)}),
     )
@@ -93,7 +96,33 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['price_with_discount_or_PROMO',]
 
 
+    def check_discount_period(self):
+        print('check_discount_period')
+        date_time_now = datetime.now()
+        all_products_with_discount = Products.objects.filter(
+            Q(display_discount=True) | Q(display_promo=True)
+        )
+        for prod in all_products_with_discount:
+
+            date_time_expirations_discont_prod = timezone.make_naive(prod.discount_period)
+
+            print(prod, prod.pk, prod.display_discount, prod.display_promo, prod.price)
+            print(date_time_now, type(date_time_now))
+            print(prod.discount_period, type(prod.discount_period))
+            print(date_time_expirations_discont_prod, type(date_time_expirations_discont_prod))
+
+            if date_time_now > date_time_expirations_discont_prod and prod.display_discount:
+                price = Decimal(prod.price)
+                discount = Decimal(prod.discount) / 100
+                price_with_discount_or_PROMO = prod.price_with_discount_or_PROMO
+                price_without_discount = price_with_discount_or_PROMO + (price * discount)
+                prod.price_with_discount_or_PROMO = price_without_discount
+                prod.display_discount = False
+                prod.save()
+
+
     def get_image(self, obj):
+        self.check_discount_period()
         try:
             url_prod = obj.productimage_set.all()[0].image.url
             return mark_safe(f'<img src={url_prod} width="75"')
