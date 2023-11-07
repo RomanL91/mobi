@@ -34,6 +34,10 @@ class Promo(models.Model):
         max_digits=4, decimal_places=2, default=0
     )
 
+    class Meta:
+        verbose_name = 'Промо'
+        verbose_name_plural = 'Промо'
+
 
     def __str__(self) -> str:
         return f'ПРОМО: {self.name_promo} | КОД: {self.pass_promo} | СКИДКА: {self.discont_promo}'

@@ -38,6 +38,10 @@ class Review(models.Model):
         verbose_name='Продукт'
     )
 
+    class Meta:
+        verbose_name = 'Отзыв/Рейтинг'
+        verbose_name_plural = 'Отзывы/Рейтинги'
+
 
     def __str__(self) -> str:
         return self.product.name_product
