@@ -127,6 +127,12 @@ class ProductAdmin(admin.ModelAdmin):
         obj.save()
 
 
+admin.site.site_header = 'Администрирование Магазина'
+admin.site.index_title = 'Администрирование Магазина'   # default: "Site administration"
+admin.site.site_title = 'Администрирование Магазина'    # default: "Django site admin"
+admin.site.site_url = None   
+# admin.site.disable_action('delete_selected')
+
 admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(Products, ProductAdmin)
 
