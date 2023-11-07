@@ -12,6 +12,9 @@ djangorestframework = "^3.14.0"
 django-cors-headers = "^4.3.0"
 pillow = "^10.1.0"
 django-fieldsets-with-inlines = "^0.6"
+celery = "^5.3.4"
+django-celery-beat = "^2.5.0"
+redis = "^5.0.1"
 
 
 [build-system]

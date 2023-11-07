@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'fieldsets_with_inlines',
+    'django_celery_beat',
 
     'app_products',
     'app_category',
@@ -151,3 +152,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TIME_ZONE = 'Asia/Omsk' 
 USE_TZ = True
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://localhost:6379',
+#     }
+# }
+
+CELERY_TIMEZONE = 'Asia/Omsk' 
+CELERY_TASK_TRACK_STARTED = True
+
+REDIS_HOST = "0.0.0.0"
+REDIS_PORT = "6379"
+
+CELERY_BROKER_URL = "redis://" + REDIS_HOST + ":" + REDIS_PORT + "/0"
+CELERY_RESULT_BACKEND = "redis://" + REDIS_HOST + ":" + REDIS_PORT + "/0"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
