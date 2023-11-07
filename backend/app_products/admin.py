@@ -1,17 +1,17 @@
 from django.db import models
-from django.contrib import admin
+from django.db.models import Q
 from django.utils.html import mark_safe
 from django.utils.html import format_html
-# from django.template.loader import get_template
+from django.contrib import admin
 from django.contrib.admin.widgets import AdminFileWidget
-from django.db.models import Q
 
+# from django.template.loader import get_template
 # from fieldsets_with_inlines import FieldsetsInlineMixin
 
 from app_products.models import Products, ProductImage
 
 from decimal import Decimal
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.utils import timezone
 
 
@@ -97,8 +97,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 
     def check_discount_period(self):
-        print('check_discount_period')
         date_time_now = datetime.now()
+        # TO DO CACHE
         all_products_with_discount = Products.objects.filter(
             Q(display_discount=True) | Q(display_promo=True)
         )
@@ -106,18 +106,26 @@ class ProductAdmin(admin.ModelAdmin):
 
             date_time_expirations_discont_prod = timezone.make_naive(prod.discount_period)
 
-            print(prod, prod.pk, prod.display_discount, prod.display_promo, prod.price)
-            print(date_time_now, type(date_time_now))
-            print(prod.discount_period, type(prod.discount_period))
-            print(date_time_expirations_discont_prod, type(date_time_expirations_discont_prod))
+            date_time_expirations_discont_prod_PROMO = timezone.make_naive(
+                prod.promo.discount_period_promo
+            )
 
+            # TO DO DRY
+            price = Decimal(prod.price)
             if date_time_now > date_time_expirations_discont_prod and prod.display_discount:
-                price = Decimal(prod.price)
                 discount = Decimal(prod.discount) / 100
                 price_with_discount_or_PROMO = prod.price_with_discount_or_PROMO
                 price_without_discount = price_with_discount_or_PROMO + (price * discount)
                 prod.price_with_discount_or_PROMO = price_without_discount
                 prod.display_discount = False
+                prod.save()
+            
+            if date_time_now > date_time_expirations_discont_prod_PROMO and prod.display_promo:
+                discount = Decimal(prod.promo.discont_promo) / 100
+                price_with_discount_or_PROMO = prod.price_with_discount_or_PROMO
+                price_without_discount = price_with_discount_or_PROMO + (price * discount)
+                prod.price_with_discount_or_PROMO = price_without_discount
+                prod.display_promo = False
                 prod.save()
 
 
