@@ -7,6 +7,18 @@ from app_tags.serializers import TagSerializer
 from app_promo.serializers import PromoSerializer
 
 
+class ProductSerializerForRiview(serializers.ModelSerializer):
+    category = CategorySerializer()
+    tag = TagSerializer(many=True)
+    class Meta:
+        model = Products
+        fields = [
+            'category',
+            'name_product',
+            'tag',
+        ]
+
+
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
@@ -19,17 +31,8 @@ class ProductsSerializer(serializers.ModelSerializer):
     promo = PromoSerializer()
     class Meta:
         model = Products
-    #     fields = [
-    #         'id', 'name_product', 
-    #         'desc_product', 
-    #         'display_price', 'price', 'price_with_discount_or_PROMO',
-    #         'display_discount', 'discount', 'discount_period', 
-    #         'display_remaining_goods', 'remaining_goods', 
-    #         'display_tag', 'tag',
-    #         'display_promo', 'promo',
-    #         'display_reviews', 'rating',
-    #     ]
         fields = "__all__"
+
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
