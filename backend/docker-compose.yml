@@ -1,0 +1,54 @@
+version: "3.7"
+
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - static_volume_mobi:/app/static
+      - media_volume_mobi:/app/media
+    entrypoint:
+      - ./entrypoint.sh
+    expose:
+      - 8000
+    depends_on:
+      - cache
+    networks:
+      - djangonetwork
+    links:
+     - cache
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - static_volume_mobi:/app/static
+      - media_volume_mobi:/app/media
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+    networks:
+      - djangonetwork
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - djangonetwork
+
+volumes:
+  static_volume_mobi:
+  media_volume_mobi:
+
+networks:
+    djangonetwork:
+        driver: bridge

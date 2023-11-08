@@ -81,7 +81,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
 
 
 # Database
@@ -149,8 +150,11 @@ CORS_ORIGIN_ALLOW_ALL = False
 #        'localhost:3000',
 # )
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 TIME_ZONE = 'Asia/Omsk' 
 USE_TZ = True
@@ -165,7 +169,7 @@ USE_TZ = True
 CELERY_TIMEZONE = 'Asia/Omsk' 
 CELERY_TASK_TRACK_STARTED = True
 
-REDIS_HOST = "0.0.0.0"
+REDIS_HOST = "cache"
 REDIS_PORT = "6379"
 
 CELERY_BROKER_URL = "redis://" + REDIS_HOST + ":" + REDIS_PORT + "/0"
