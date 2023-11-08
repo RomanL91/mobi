@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'app_promo',
     'app_reviews',
     'app_basket',
+    'app_color',
 ]
 
 MIDDLEWARE = [
