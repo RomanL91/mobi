@@ -11,6 +11,7 @@ class BasketAdmin(admin.ModelAdmin):
         'quantity',
         'add_datetime',
     ]
+    readonly_fields = ['user_session',]
 
     def save_model(self, request, obj, form, change):
        obj.user_session = request.session.__dict__["_SessionBase__session_key"]

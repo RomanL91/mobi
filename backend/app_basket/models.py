@@ -5,8 +5,7 @@ from app_products.models import Products
 
 class Basket(models.Model):
     user_session = models.CharField(
-        verbose_name='Сессия пользователя', max_length=300, 
-        blank=True, null=True, editable=False
+        verbose_name='Сессия пользователя', max_length=300, editable=True
     )
 
     products = models.ForeignKey(
