@@ -8,7 +8,7 @@ from app_products.models import Products
 
 
 def valid(value):
-    if not 5 >= float(value) >= 0:
+    if not 5 >= value >= 0:
         raise ValidationError(
                 _("%(value)s Оценка может быть от 0 до 5"),
                 params={"value": value},
@@ -18,11 +18,8 @@ def valid(value):
 class Review(models.Model):
     phone_number_regex = RegexValidator(regex = r"^\+7\d{10}$")
 
-    rating = models.DecimalField(
-        verbose_name='Оценка/Рейтинг',
-        validators=[valid,],
-        max_digits=2, decimal_places=1, default=5
-    )
+    rating = models.PositiveIntegerField(verbose_name='Оценка/Рейтинг', default=5, validators=[valid,])
+
     review = models.TextField(
         verbose_name='Отзыв', max_length=2000, unique=True
     )

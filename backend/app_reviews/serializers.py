@@ -6,9 +6,9 @@ from app_products.serializers import ProductSerializerForRiview
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    product = ProductSerializerForRiview()
+    # product = ProductSerializerForRiview()
     class Meta:
         model = Review
         fields = [
-            'rating', 'review', 'product'
+           'id', 'rating', 'review', 'phone_number', 'product'
         ]
