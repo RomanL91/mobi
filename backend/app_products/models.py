@@ -64,8 +64,8 @@ class Products(models.Model):
     display_remaining_goods = models.BooleanField(verbose_name='Отобразить остаток товара', default=False)
     remaining_goods = models.PositiveIntegerField(verbose_name='Остаток товара', default=0, blank=True)
     # ================= ТЭГИ для продукта
-    display_tag = models.BooleanField(verbose_name='Показывать ТЭГ', default=False)
-    tag = models.ManyToManyField(Tags, verbose_name='ТЭГ', blank=True)
+    display_tag = models.BooleanField(verbose_name='Показывать ТЕГ', default=False)
+    tag = models.ManyToManyField(Tags, verbose_name='ТЕГ', blank=True)
     # ================= ПРОМО на продукт
     display_promo = models.BooleanField(verbose_name='Отобразить/Применить ПРОМО', default=False)
     promo = models.ForeignKey(

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from app_products.models import Products, ProductImage
 
 from app_category.serializers import CategorySerializer
+from app_tags.serializers import TagSerializer
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -13,6 +14,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    tag = TagSerializer(many=True)
     class Meta:
         model = Products
     #     fields = [
