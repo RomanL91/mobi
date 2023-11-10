@@ -2,8 +2,6 @@ from django.db import models
 
 from django.core.validators import RegexValidator
 
-from app_products.models import Products
-
 
 class ColorField(models.CharField):
     """ Поле для хранения HTML-кода цвета."""
@@ -15,11 +13,11 @@ class ColorField(models.CharField):
 
 
 class Color(models.Model):
-    color = ColorField(default='#FF0000', verbose_name='Цвет')
+    color = ColorField(unique=True, default='#FF0000', verbose_name='Цвет')
     name_color = models.CharField(
+        unique=True,
         verbose_name='Название цвета', max_length=35, default='Красный'
     )
-    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name='Продукт')
 
 
     class Meta:
@@ -28,4 +26,5 @@ class Color(models.Model):
 
     
     def __str__(self) -> str:
-        return self.color
+        return self.name_color
+    

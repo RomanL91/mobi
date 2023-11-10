@@ -1,15 +1,10 @@
 from django.db import models
-from django import forms
 from django.utils.html import mark_safe
 from django.utils.html import format_html
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminFileWidget
 
-# from django.template.loader import get_template
-# from fieldsets_with_inlines import FieldsetsInlineMixin
-
 from app_products.models import Products, ProductImage
-from app_color.models import Color, ColorField
 
 from decimal import Decimal
 
@@ -69,18 +64,9 @@ class ProductImageInline(admin.StackedInline):
     classes = ['collapse']
 
 
-class ProductColorInline(admin.StackedInline):
-    model = Color
-    extra = 0
-    formfield_overrides = {
-        ColorField: {'widget': forms.TextInput(attrs={'type': 'color'})}
-    }
-    classes = ['collapse']
-
-
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('О продукте', {'fields': (('name_product', 'desc_product'),)}),
+        ('О продукте', {'fields': (('name_product', 'color', 'desc_product'),)}),
         ('Остаток продукта', {'fields': (('remaining_goods', 'display_remaining_goods'),), 'classes':('collapse',)}),
         ('Категория', {'fields': (('category',),), 'classes':('collapse',)}),
         ('ТЭГИ', {'fields': (('tag', 'display_tag'),), 'classes':('collapse',)}),
@@ -90,7 +76,7 @@ class ProductAdmin(admin.ModelAdmin):
         ('Рейтинг', {'fields': (('display_reviews', 'rating'),), 'classes':('collapse',)}),
     )
     filter_horizontal = ['tag',]
-    inlines = [ProductImageInline, ProductColorInline]
+    inlines = [ProductImageInline,]
     list_display = [
         'get_image',
         'name_product',
