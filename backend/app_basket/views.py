@@ -1,16 +1,12 @@
-from rest_framework import viewsets
-
 from app_basket.models import Basket
+from app_products.models import Products
 
 from app_basket.serializers import BasketSerializer
 
-from rest_framework.response import Response
-
-from rest_framework.decorators import action
-
 from rest_framework import status
-from app_products.models import Products
-
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 
 class BasketViewSet(viewsets.ModelViewSet):
