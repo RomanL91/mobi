@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from rest_framework import status
+from app_products.models import Products
+
 
 
 class BasketViewSet(viewsets.ModelViewSet):
@@ -17,26 +19,25 @@ class BasketViewSet(viewsets.ModelViewSet):
 
     
     def create(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(user_session=request.session.__dict__["_SessionBase__session_key"])
-        set_buy = set([el.products.pk for el in queryset])
+        prod = Basket.objects.get_or_create(
+                user_session=request.data['user_session'], 
+                products=Products.objects.get(pk=request.data['products']))
+        prod, flag = prod
 
-        if int(request.data['products']) in set_buy:
-            prod = queryset.get(products=int(request.data['products']))
-
-            self.lookup_field = 'pk'
-            self.kwargs['pk'] = prod.pk
-            
-            self.update(request)
-
+        if flag:
+            prod.quantity = int(request.data['quantity'])
+            prod.save()
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            return Response(serializer.data)
-        else:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            prod.quantity = int(request.data['quantity'])
+            prod.save()
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 
 
     @action(detail=False, methods=['get'])
