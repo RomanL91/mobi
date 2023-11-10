@@ -49,4 +49,30 @@ class ProductsSerializer(serializers.ModelSerializer):
             image.image.url for image in all_entity_image_product
         ]
         representation['list_url_to_image'] = list_url_to_image
+
+        if not instance.display_price:
+            del representation['display_price']
+            del representation['price']
+
+        if not instance.display_discount:
+            del representation['display_discount']
+            del representation['discount']
+            del representation['discount_period']
+
+        if not instance.display_remaining_goods:
+            del representation['display_remaining_goods']
+            del representation['remaining_goods']
+
+        if not instance.display_tag:
+            del representation['display_tag']
+            del representation['tag']
+
+        if not instance.display_promo:
+            del representation['display_promo']
+            del representation['promo']
+
+        if not instance.display_reviews:
+            del representation['display_reviews']
+            del representation['rating']
+            
         return representation

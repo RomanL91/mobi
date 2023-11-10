@@ -109,9 +109,12 @@ class ProductAdmin(admin.ModelAdmin):
         if not 'display_discount' in form.data and not 'display_promo' in form.data:
             obj.price_with_discount_or_PROMO = Decimal(form.data.get('price'))
         else:
-            price = Decimal(form.data.get('price'))
-            discount = Decimal(form.data.get('discount')) / 100
-            discount_promo = obj.promo.discont_promo / 100
+            try:            
+                price = Decimal(form.data.get('price'))
+                discount = Decimal(form.data.get('discount')) / 100
+                discount_promo = obj.promo.discont_promo / 100
+            except AttributeError:
+                discount_promo = 0
 
             if 'display_discount' in form.data and 'display_promo' in form.data:
                 price = price - (price * (discount + discount_promo))
