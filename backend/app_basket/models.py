@@ -5,7 +5,7 @@ from app_products.models import Products
 
 class Basket(models.Model):
     user_session = models.CharField(
-        verbose_name='Сессия пользователя', max_length=300, editable=True
+        verbose_name='Сессия пользователя', max_length=300, editable=True,
     )
 
     products = models.ForeignKey(
@@ -28,7 +28,7 @@ class Basket(models.Model):
 
 
     def __str__(self) -> str:
-        return self.products.name_product
+        return self.products.name_product    
 
 
     @property

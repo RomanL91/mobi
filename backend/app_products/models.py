@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from app_category.models import Category
 from app_tags.models import Tags
 from app_promo.models import Promo
+from app_color.models import Color
 
 from datetime import datetime, timedelta
 
@@ -33,6 +34,9 @@ class Products(models.Model):
     )
     # ================= Имя, Описание
     name_product = models.CharField(verbose_name='Наименование продукта', max_length=150)
+    color = models.ForeignKey(
+        Color, on_delete=models.SET_NULL,
+        null=True, blank=True, verbose_name='Цвет')
     desc_product = models.TextField(verbose_name='Описание продукта', max_length=1000, blank=True)
     # ================= Все связанное с ценой продукта
     display_price = models.BooleanField(verbose_name='Отображать цену', default=False)

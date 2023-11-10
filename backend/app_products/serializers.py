@@ -7,6 +7,12 @@ from app_tags.serializers import TagSerializer
 from app_promo.serializers import PromoSerializer
 
 
+class ProductSerializerForCategory(serializers.ModelSerializer):
+    class Meta:
+        model = Products
+        fields = "__all__"
+
+
 class ProductSerializerForRiview(serializers.ModelSerializer):
     category = CategorySerializer()
     tag = TagSerializer(many=True)

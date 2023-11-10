@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from app_basket.models import Basket
+from app_products.models import Products
 
 
 @admin.register(Basket)
@@ -11,8 +12,17 @@ class BasketAdmin(admin.ModelAdmin):
         'quantity',
         'add_datetime',
     ]
-    readonly_fields = ['user_session',]
+
 
     def save_model(self, request, obj, form, change):
-       obj.user_session = request.session.__dict__["_SessionBase__session_key"]
-       obj.save()
+        if change:
+            obj.quantity=int(form.data['quantity'])
+        else:
+            obj = Basket.objects.get_or_create(
+                user_session=form.data['user_session'], 
+                products=Products.objects.get(pk=form.data['products']),
+            )
+            obj, flag = obj
+            obj.quantity=int(form.data['quantity'])
+
+        obj.save()

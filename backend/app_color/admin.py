@@ -8,7 +8,8 @@ from app_color.models import Color, ColorField
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
     list_display = [
-        'name_color', 'product', 'color'
+        'name_color', 
+        'color'
     ]
     formfield_overrides = {
         ColorField: {'widget': forms.TextInput(attrs={'type': 'color'})}
