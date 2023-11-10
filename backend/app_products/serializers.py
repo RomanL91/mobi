@@ -5,6 +5,7 @@ from app_products.models import Products, ProductImage
 from app_category.serializers import CategorySerializer
 from app_tags.serializers import TagSerializer
 from app_promo.serializers import PromoSerializer
+from app_color.serializers import ColorSerializer
 
 
 class ProductSerializerForCategory(serializers.ModelSerializer):
@@ -35,6 +36,7 @@ class ProductsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     tag = TagSerializer(many=True)
     promo = PromoSerializer()
+    color = ColorSerializer()
     class Meta:
         model = Products
         fields = "__all__"
