@@ -8,7 +8,7 @@ from app_promo.serializers import PromoSerializer
 from app_color.serializers import ColorSerializer
 
 
-class ProductSerializerForCategory(serializers.ModelSerializer):
+class ProductSerializerForCategory(serializers.ModelSerializer): #DEPRICATED
     class Meta:
         model = Products
         fields = "__all__"
