@@ -4,7 +4,11 @@ from rest_framework import serializers
 
 from app_basket.models import Basket
 
+from app_products.serializers import ProductsSerializer
+
+
 class BasketSerializer(serializers.ModelSerializer):
+    products = ProductsSerializer()
     class Meta:
         model = Basket
         fields = "__all__"
