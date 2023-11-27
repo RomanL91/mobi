@@ -40,7 +40,6 @@ class BasketViewSet(viewsets.ModelViewSet):
     def visitor(self, request, pk=None):
         id_req = None
         for param in request.GET:
-            print(param, type(param))
             if param == 'id':
                 id_req = request.GET[param]
                                     #http://localhost:8000/api/v1/basket/visitor/?buy=77714648717 и хешировать с солью(как идея просто)
