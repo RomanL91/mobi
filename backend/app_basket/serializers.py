@@ -33,7 +33,7 @@ class BasketSerializer(serializers.ModelSerializer):
         representation['price_per_prod'] = price_per_prod
         representation['display_discount'] = display_discount
         representation['display_promo'] = instance.products.display_promo
-        if instance.products.display_promo:
+        if instance.promo_active:
             representation['price_per_promo'] = instance.products.price_with_discount_or_PROMO
 
         return representation

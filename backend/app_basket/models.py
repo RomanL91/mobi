@@ -22,6 +22,11 @@ class Basket(models.Model):
         verbose_name="Время добавления", auto_now_add=True
     )
 
+    promo_active = models.BooleanField(
+        verbose_name='Активировано ПРОМО', default=False
+    )
+
+
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'

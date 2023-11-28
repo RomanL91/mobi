@@ -39,11 +39,22 @@ class BasketViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def visitor(self, request, pk=None):
         id_req = None
+        promo = None
         for param in request.GET:
             if param == 'id':
-                id_req = request.GET[param]
+                id_req = request.GET['id']
+            if param == 'promo':
+                promo = request.GET['promo']
                                     #http://localhost:8000/api/v1/basket/visitor/?buy=77714648717 и хешировать с солью(как идея просто)
                                     # http://localhost:8000/api/v1/basket/visitor/?buy=77714648717&promo=PROMO
         queryset = self.get_queryset().filter(user_session=id_req)
+        for i in queryset:
+            if i.products.promo is not None:
+                if i.products.promo.pass_promo == promo:
+                    i.promo_active = True
+                else:
+                    i.promo_active = False
+                i.save()
+                    
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
