@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from rest_framework import serializers
 
-from app_basket.models import Basket
+from app_basket.models import Basket, Order
 
 
 class BasketSerializer(serializers.ModelSerializer):
@@ -37,4 +37,10 @@ class BasketSerializer(serializers.ModelSerializer):
             representation['price_per_promo'] = instance.products.price_with_discount_or_PROMO
 
         return representation
+    
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
     

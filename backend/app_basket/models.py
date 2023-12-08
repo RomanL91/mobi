@@ -87,7 +87,7 @@ class Order(models.Model):
     order_product_list = models.JSONField(
         verbose_name='Продукты данного заказа', default={},
         blank=True, null=True,
-        editable=False
+        # editable=True
     )
 
 
