@@ -99,3 +99,4 @@ class Order(models.Model):
     def order_product_list(self):
         _items = Basket.objects.filter(user_session=self.user_session)
         print(_items)
+        
