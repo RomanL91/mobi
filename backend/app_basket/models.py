@@ -48,3 +48,54 @@ class Basket(models.Model):
         _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
         return _totalcost
     
+
+class Order(models.Model):
+    user_session = models.CharField(
+        verbose_name='Сессия пользователя', max_length=300, editable=True,
+    )
+
+    user_name = models.CharField(
+        verbose_name='Имя пользователя', max_length=150,
+        blank=True, null=True
+    )
+
+    user_telephone = models.CharField(
+        verbose_name='Телефонный номер', max_length=20,
+        blank=True, null=True
+    )
+
+    order_delivery = models.BooleanField(
+        verbose_name='Доставка', default=False
+    )
+
+    order_delivery_address = models.CharField(
+        verbose_name='Адресс доставки', max_length=300,
+        blank=True, null=True
+    )
+
+    order_total_price = models.DecimalField(
+        verbose_name='Общая стоимость заказа', 
+        max_digits=10000, decimal_places=2, default=0,
+        blank=True, null=True
+    )
+
+    promo = models.CharField(
+        verbose_name='Примененное промо', max_length=200,
+        blank=True, null=True
+    )
+
+    order_product_list = models.JSONField(
+        verbose_name='Продукты данного заказа', default={},
+        blank=True, null=True,
+        editable=False
+    )
+
+
+    def __str__(self) -> str:
+        return self.user_telephone 
+    
+
+    @property
+    def order_product_list(self):
+        _items = Basket.objects.filter(user_session=self.user_session)
+        print(_items)
