@@ -90,9 +90,10 @@ class Order(models.Model):
     )
 
     order_product_list = models.JSONField(
-        verbose_name='Продукты данного заказа', default={},
-        blank=True, null=True,
-        # editable=True
+        verbose_name='Продукты данного заказа', default=dict,
+        blank=True, 
+        null=True,
+        editable=True
     )
 
 
@@ -105,10 +106,4 @@ class Order(models.Model):
         if self.user_telephone != '':
             return self.user_telephone
         return 'Не указан номер телефона'
-    
-
-    @property
-    def order_product_list(self):
-        _items = Basket.objects.filter(user_session=self.user_session)
-        print(_items)
         

@@ -16,6 +16,7 @@ celery = "^5.3.4"
 django-celery-beat = "^2.5.0"
 redis = "^5.0.1"
 uvicorn = "^0.24.0.post1"
+django-json-widget = "^1.1.1"
 
 
 [build-system]

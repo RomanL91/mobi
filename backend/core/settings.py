@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'fieldsets_with_inlines',
     'django_celery_beat',
+    'django_json_widget',
 
     'app_products',
     'app_category',

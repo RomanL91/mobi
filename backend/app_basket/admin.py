@@ -1,7 +1,10 @@
+from django.db import models
 from django.contrib import admin
 
 from app_basket.models import Basket, Order
 from app_products.models import Products
+
+from django_json_widget.widgets import JSONEditorWidget
 
 
 @admin.register(Basket)
@@ -30,4 +33,10 @@ class BasketAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = [
+        'user_session',
+        'order_product_list'
+    ]
+    # formfield_overrides = {
+    #     models.JSONField: {'widget': JSONEditorWidget}, # Или сделать кастомный виджет
+    # }

@@ -70,6 +70,16 @@ class OrderViewSet(viewsets.ModelViewSet):
         print(request.POST['user_session'])
         items = Basket.objects.filter(user_session=request.POST['user_session'])
         print(items)
+        order_product_list = [
+            {
+               'products': el.products.name_product,  
+               'quantity': el.quantity, 
+               'add_datetime': el.add_datetime.strftime("%m/%d/%Y, %H:%M:%S"), 
+               'promo_active': el.promo_active, 
+            } for el in items
+        ]
+        print(order_product_list)
+
 
 
         Order.objects.create(
@@ -80,7 +90,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             order_delivery_address = request.POST['order_delivery_address'],
             # order_total_price = request.POST['order_total_price'],
             promo = request.POST['promo'],
-            # order_product_list = items,
+            order_product_list = order_product_list
         )
 
 
