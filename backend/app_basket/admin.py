@@ -27,7 +27,7 @@ class CustomAdminJSONWidget(AdminTextareaWidget):
                     {'='*80}\n\t\r<br>
                     '''
                 )
-        return format_html("".join(result))
+            return format_html("".join(result))
 
 
 @admin.register(Basket)
@@ -58,6 +58,7 @@ class BasketAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'user_session',
+        'order_total_price',
         'completed',
         'order_delivery',
         'order_delivery_address',
@@ -86,5 +87,6 @@ class OrderAdmin(admin.ModelAdmin):
                     {'='*80}\n\t\r<br>
                     '''
                 )
+        result.append(f'|----->>> За заявку: {obj.order_total_price}')
         return format_html("".join(result))
     get_list_products.short_description = 'Список продуктов заказа'

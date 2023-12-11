@@ -110,7 +110,5 @@ class Order(models.Model):
 
 
     def __str__(self) -> str:
-        if self.user_telephone != '':
-            return self.user_telephone
-        return 'Не указан номер телефона'
+        return self.user_session
         

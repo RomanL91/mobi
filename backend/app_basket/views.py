@@ -74,17 +74,21 @@ class OrderViewSet(viewsets.ModelViewSet):
                'promo_active': el.promo_active, 
             } for el in items
         ]
+        totalcost = sum([
+            item.product_cost for item in items
+        ])
 
-        Order.objects.create(
+        prod, flag = Order.objects.get_or_create(
             user_session = request.POST['user_session'],
             user_name = request.POST['user_name'],
             user_telephone = request.POST['user_telephone'],
             order_delivery = bool(request.POST['order_delivery_address']),
             order_delivery_address = request.POST['order_delivery_address'],
-            # order_total_price = request.POST['order_total_price'],
+            order_total_price = totalcost,
             promo = request.POST['promo'],
-            order_product_list = order_product_list
+            order_product_list = order_product_list,
+            completed = False
         )
-
+        if flag:
+            return Response({}, status=status.HTTP_201_CREATED)
         return Response({}, status=status.HTTP_200_OK)
-
