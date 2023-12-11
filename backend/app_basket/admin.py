@@ -58,8 +58,32 @@ class BasketAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'user_session',
-        'order_product_list'
+        'user_name',
+        'user_telephone',
+        'order_delivery',
+        'order_delivery_address',
+        'promo',
+        'creation_date_and_time',
+        'get_list_products',
+
     ]
     formfield_overrides = {
         models.JSONField: {'widget': CustomAdminJSONWidget}, # Или сделать кастомный виджет ЕСТЬ И ГОТОВЫЕ РЕШЕНИЯ
     }
+
+
+    def get_list_products(self, obj):
+        result = []
+        for el in obj.order_product_list:
+            p, q, t, pr = el.values()
+            result.extend(
+                    f'''
+                    Продукт: {p}<br>
+                    Колличество: {q}<br>
+                    Время добаления в корзину: {t}<br>
+                    Приминение ПРОМО: {pr}<br>
+                    {'='*80}\n\t\r<br>
+                    '''
+                )
+        return format_html("".join(result))
+    get_list_products.short_description = 'Список продуктов заказа'
