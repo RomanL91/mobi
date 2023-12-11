@@ -96,8 +96,15 @@ class Order(models.Model):
     )
 
 
+    class Meta:
+        verbose_name = 'Ордер'
+        verbose_name_plural = 'Ордера'
+
+
     def __str__(self) -> str:
-        return self.user_telephone 
+        if self.user_telephone != '':
+            return self.user_telephone
+        return 'Не указан номер телефона'
     
 
     @property

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from app_basket.models import Basket
+from app_basket.models import Basket, Order
 from app_products.models import Products
 
 
@@ -26,3 +26,8 @@ class BasketAdmin(admin.ModelAdmin):
             obj.quantity=int(form.data['quantity'])
 
         obj.save()
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    pass
