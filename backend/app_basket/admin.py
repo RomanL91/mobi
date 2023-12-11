@@ -58,10 +58,11 @@ class BasketAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'user_session',
-        'user_name',
-        'user_telephone',
+        'completed',
         'order_delivery',
         'order_delivery_address',
+        'user_name',
+        'user_telephone',
         'promo',
         'creation_date_and_time',
         'get_list_products',

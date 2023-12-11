@@ -96,6 +96,13 @@ class Order(models.Model):
         editable=True
     )
 
+    completed = models.BooleanField(
+        verbose_name='Заявка исполнена?', default=False,
+        help_text='''
+        Когда заявка исполнена выбрать данный параметр и сохранить запись.
+        '''
+    )
+
 
     class Meta:
         verbose_name = 'Ордер'

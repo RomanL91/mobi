@@ -65,11 +65,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
-        print('---------------create--------------')
-        print(request.POST)
-        print(request.POST['user_session'])
         items = Basket.objects.filter(user_session=request.POST['user_session'])
-        print(items)
         order_product_list = [
             {
                'products': el.products.name_product,  
@@ -78,9 +74,6 @@ class OrderViewSet(viewsets.ModelViewSet):
                'promo_active': el.promo_active, 
             } for el in items
         ]
-        print(order_product_list)
-
-
 
         Order.objects.create(
             user_session = request.POST['user_session'],
@@ -92,9 +85,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             promo = request.POST['promo'],
             order_product_list = order_product_list
         )
-
-
-
 
         return Response({}, status=status.HTTP_200_OK)
 
