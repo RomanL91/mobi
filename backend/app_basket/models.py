@@ -84,6 +84,11 @@ class Order(models.Model):
         blank=True, null=True
     )
 
+    creation_date_and_time = models.DateTimeField(
+        verbose_name='Дата и время и создания', auto_now=True,
+        auto_created=True
+    )
+
     order_product_list = models.JSONField(
         verbose_name='Продукты данного заказа', default={},
         blank=True, null=True,
