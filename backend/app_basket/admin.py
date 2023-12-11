@@ -11,8 +11,6 @@ from django.contrib.admin.widgets import AdminTextareaWidget
 from django.utils.html import format_html
 
 
-
-
 class CustomAdminJSONWidget(AdminTextareaWidget):
     def render(self, name, value, attrs=None, renderer=None):
         result = []
